@@ -14,7 +14,6 @@
  */
 package org.thunderdog.challegram.unsorted;
 
-import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
@@ -22,23 +21,11 @@ import androidx.annotation.Nullable;
 
 import com.getkeepsafe.relinker.ReLinker;
 import com.getkeepsafe.relinker.ReLinkerInstance;
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.ext.ffmpeg.FfmpegLibrary;
-import com.google.android.exoplayer2.ext.flac.FlacLibrary;
-import com.google.android.exoplayer2.ext.opus.OpusLibrary;
-import com.google.android.exoplayer2.ext.vp9.VpxLibrary;
 
 import org.thunderdog.challegram.BuildConfig;
-import org.thunderdog.challegram.N;
 import org.thunderdog.challegram.tool.UI;
-import org.thunderdog.challegram.voip.VoIPController;
-import org.webrtc.SoftwareVideoEncoderFactory;
-import org.webrtc.VideoCodecInfo;
 
 import java.util.ArrayList;
-import java.util.Locale;
-
-import me.vkryl.leveldb.LevelDB;
 
 public class NLoader implements ReLinker.Logger {
 
@@ -74,24 +61,6 @@ public class NLoader implements ReLinker.Logger {
         loadLibraryImpl(reLinker, "leveldbjni", BuildConfig.LEVELDB_VERSION);
         loadLibraryImpl(reLinker, "tgcallsjni", BuildConfig.JNI_VERSION /*TODO: separate variable?*/);
         loadLibraryImpl(reLinker, "tgxjni", BuildConfig.JNI_VERSION);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-          OpusLibrary.setLibraries(C.CRYPTO_TYPE_UNSUPPORTED);
-          VpxLibrary.setLibraries(C.CRYPTO_TYPE_UNSUPPORTED);
-          FlacLibrary.setLibraries();
-          FfmpegLibrary.setLibraries();
-          if (BuildConfig.DEBUG) {
-            android.util.Log.v("tgx", String.format(Locale.US,
-              "leveldb %s, libopus %s, libvpx %s, ffmpeg %s, tgvoip %s, tgcalls %s",
-              LevelDB.getVersion(),
-              OpusLibrary.getVersion(),
-              VpxLibrary.getVersion(),
-              FfmpegLibrary.getVersion(),
-              VoIPController.getVersion(),
-              TextUtils.join("+", N.getTgCallsVersions())
-            ));
-            VideoCodecInfo[] softwareVideoCodecs = new SoftwareVideoEncoderFactory().getSupportedCodecs();
-          }
-        }
       } catch (Throwable t) {
         RuntimeException e = new IllegalStateException(instance().collectLog() + "\n" + t.getMessage(), t);
         e.setStackTrace(t.getStackTrace());

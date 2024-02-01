@@ -21,11 +21,11 @@
 	path = app/jni/third_party/lz4
 	url = https://github.com/lz4/lz4
 	shallow = true
-[submodule "ExoPlayer"]
-	path = thirdparty/ExoPlayer
-	url = https://github.com/google/ExoPlayer
+[submodule "androidx-media"]
+	path = thirdparty/androidx-media
+	url = https://github.com/androidx/media
 	shallow = true
-	branch = release-v2
+	branch = release
 [submodule "flac"]
 	path = app/jni/third_party/flac
 	url = https://github.com/xiph/flac
